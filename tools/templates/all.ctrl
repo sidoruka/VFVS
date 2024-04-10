@@ -116,7 +116,7 @@ data_storage_mode=sharedfs
 #         same shared filesystem that will allow for both input and output
 #         of data. This only allowed if Slurm is set at the scheduler
 
-data_storage_mode=sharedfs
+job_storage_mode=sharedfs
 # This mode determines where data is stored after a run
 #   * s3: Job data is stored on S3 object store, which is the required
 #         mode if using AWS Batch. Items under the "S3 Object Store" 
