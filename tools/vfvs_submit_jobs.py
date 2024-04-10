@@ -87,6 +87,7 @@ def run_bash(config, current_workunit, jobline):
         print(f"Cannot write the workunit bash file ({batch_submit_file})")
         raise error
 
+    os.chmod(batch_submit_file, 0o755)
     with open("../workflow/run.bash", "a") as bash_out:
         bash_out.write(f"{batch_submit_file}\n")
 

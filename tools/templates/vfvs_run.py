@@ -1141,7 +1141,7 @@ def docking_start_MpSDockZN(task):
     os.system('chmod 0700 {}'.format(task['MpSDockZN_tmp_file'])) # Assign execution permisions on script
     cmd = ['./{}'.format(task['MpSDockZN_tmp_file'])]
         
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_MpSDockZN(item, ret): 
     try: 
@@ -1188,7 +1188,7 @@ def docking_start_SEED(task):
     os.system('chmod 0700 {}'.format(task['seed_tmp_file'])) # Assign execution permisions on script
     cmd = ['./{}'.format(task['seed_tmp_file'])]
         
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_SEED(item, ret): 
     try: 
@@ -1224,7 +1224,7 @@ def docking_start_HDock(task):
     os.system('chmod 0700 {}'.format(task['HDock_tmp_file'])) # Assign execution permisions on script
     cmd = ['./{}'.format(task['HDock_tmp_file'])]
         
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_HDock(item, ret): 
     try: 
@@ -1316,7 +1316,7 @@ def docking_start_dock6(task):
     
     cmd = ['{}/bin/dock6'.format(config_['dock6_path']), '-i', os.path.join(task['tmp_run_dir'], "dock.in")]
 
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_dock6(item, ret): 
     try: 
@@ -1368,7 +1368,7 @@ def docking_start_rosetta_ligand(task):
     os.system('chmod 0700 {}'.format(task['rosetta_tmp_file'])) # Assign execution permisions on script
     cmd = ['./{}'.format(task['rosetta_tmp_file'])]
         
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_rosetta_ligand(item, ret): 
     try: 
@@ -1427,7 +1427,7 @@ def docking_start_Molegro(task):
     os.system('chmod 0700 {}'.format(task['molegro_tmp_file'])) # Assign execution permisions on script
     cmd = ['./{}'.format(task['molegro_tmp_file'])]
         
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_Molegro(item, ret): 
     try: 
@@ -1470,7 +1470,7 @@ def docking_start_FitDock(task):
             '-o', item['tmp_run_dir']+'o.mol2'
           ]
         
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_FitDock(item, ret): 
     try: 
@@ -1510,7 +1510,7 @@ def docking_start_flexx(task):
            '-r', config_['ref_ligand']
           ]
     
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_flexx(item, ret): 
     try: 
@@ -1553,7 +1553,7 @@ def docking_start_LightDock(task):
     
     cmd = ['./{}'.format(task['lightdock_tmp_file'])]
     
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_LightDock(item, ret): 
     try: 
@@ -1598,7 +1598,7 @@ def docking_start_rldock(task):
             '-n', cpus_per_program, 
             '-s', config_['spheres_file_path']
         ]
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_rldock(item, ret): 
     try: 
@@ -1644,7 +1644,7 @@ def docking_start_autodock_koto(task):
             '--size_z',   '{}'.format(config_['size_z']),
             '--out', task['output_path']
         ]
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_autodock_koto(item, ret): 
     try: 
@@ -1732,7 +1732,7 @@ def docking_start_covdock(task):
             score_file.write(str(min(docking_scores)))
         """)
     cmd = ['python3', script_path]
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_covdock(task):
     try:
@@ -1812,7 +1812,7 @@ def docking_start_glide_sp(task):
         
         cmd = ['python3', script_path]
         
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_glide_sp(task):
     try: 
@@ -1888,7 +1888,7 @@ def docking_start_glide_xp(task):
             score_file.write(str(min(docking_scores)))
         """)
     cmd = ['python3', script_path]
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_glide_xp(task):
     try:
@@ -2041,7 +2041,7 @@ def docking_start_glide_htvs(task):
             score_file.write(str(min(docking_scores)))
         """)
     cmd = ['python3', script_path]
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_glide_htvs(task):
     try:
@@ -2080,7 +2080,7 @@ def docking_start_PSOVina(task):
             '--size_z',   '{}'.format(config_['size_z']),
             '--out', task['output_path']
          ]
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_PSOVina(item, ret):
     match = re.search(r'^\s+1\s+(?P<value>[-0-9.]+)\s+', ret.stdout, flags=re.MULTILINE)
@@ -2104,7 +2104,7 @@ def docking_start_vina(task):
             '--ligand', task['ligand_path'],
             '--out', task['output_path']
         ]
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_vina(item, ret):
     match = re.search(r'^\s+1\s+(?P<value>[-0-9.]+)\s+', ret.stdout, flags=re.MULTILINE)
@@ -2132,7 +2132,7 @@ def docking_start_smina(task):
         '--log', log_file,
         '--atom_terms', atomterms_file
     ]
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_smina(item, ret):
     found = 0
@@ -2166,7 +2166,7 @@ def docking_start_plants(task):
             task['plants_tmp_file']
     ]
 
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_plants(item, ret):
 
@@ -2189,7 +2189,7 @@ def docking_start_adfr(item):
            '-l', '{}'.format(item['ligand_path']),
            '--jobName', '{}'.format(item['output_path'])
            ]
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_adfr(item, ret):
 
@@ -2227,7 +2227,7 @@ def docking_start_autodockzn(task):
            '--scoring', 'ad4',
            '--exhaustiveness', '{}'.format(config_['exhaustiveness']),
            '--out', '{}'.format(task['output_path'])]
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 ## gnina
 
@@ -2251,7 +2251,7 @@ def docking_start_gnina(task):
                '--size_y',   '{}'.format(config_['size_y']),
                '--size_z',   '{}'.format(config_['size_z']),
                '--out', '{}'.format(task['output_path'])]
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 ## rDock
 
@@ -2268,7 +2268,7 @@ def docking_start_rdock(task):
                 '-r', config_['rdock_config'],
                 '-p', config_['dock_prm'],
                 '-n', config_['runs']]
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_rdock(item, ret):
 
@@ -2302,7 +2302,7 @@ def docking_start_mdock(task):
            '-param', config_['mdock_config']
           ]
 
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 
 def docking_finish_mdock(item, ret):
@@ -2337,7 +2337,7 @@ def docking_start_mcdock(task):
         '--target', config_['protein_name'],
         '--ligand', task['ligand_path']]
 
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_mcdock(item, ret):
 
@@ -2376,7 +2376,7 @@ def docking_start_ligandfit(task):
            'ligand', task['ligand_path'],
            'search_center=', config_['center_x'], config_['center_y'], config_['center_z']]
 
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_ligandfit(item, ret):
 
@@ -2440,7 +2440,7 @@ def docking_start_ledock(item):
     with open(item['ledock_tmp_file_list'], 'w') as f:
         f.writelines(item['ligand_path'])
 
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_ledock(item, ret):
 
@@ -2543,7 +2543,7 @@ def docking_start_gold(item):
 
     cmd = ['{}/gold_auto'.format(item['tools_path']), '{}'.format(item['gold_tmp_file'])]
 
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 
 def docking_finish_gold(item, ret):
@@ -2586,7 +2586,7 @@ def docking_start_igemdock(task):
            '-d', item['igemdock_temp_dir']
     ]
 
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 
 def docking_finish_igemdock(task, ret):
@@ -2629,7 +2629,7 @@ def docking_start_idock(item):
            '--size_z', config_['size_z'],
            '--out', '{}'.format(item['output_path'])]
 
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_idock(item, ret):
     try:
@@ -2687,7 +2687,7 @@ def docking_start_galaxydock3(task):
         f.writelines(['n_proc 1'])
 
 
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_galaxydock3(item, ret):
     try:
@@ -2735,7 +2735,7 @@ def docking_start_autodock(item, arch_type):
            '--ffile', config_['receptor'],
            '--lfile', item['ligand_path']]
 
-    return cmd
+    return wrap_into_pipe(cmd, task)
 
 def docking_finish_autodock(item, ret):
     try :
@@ -2795,7 +2795,7 @@ def scoring_start_nnscore2(task):
     os.system('chmod 0700 {}'.format(run_sh_script))
     cmd = ['./{}'.format(run_sh_script)] 
     
-    return cmd 
+    return wrap_into_pipe(cmd, task) 
 
 def scoring_finish_nnscore2(item, ret): 
     
@@ -2837,7 +2837,7 @@ def scoring_start_rf(task):
     os.system('chmod 0700 {}'.format(run_sh_script))
     cmd = ['./{}'.format(run_sh_script)] 
     
-    return cmd 
+    return wrap_into_pipe(cmd, task) 
 
 def scoring_finish_rf(item, ret): 
 
@@ -2878,7 +2878,7 @@ def scoring_start_smina(task):
     os.system('chmod 0700 {}'.format(run_sh_script))
     cmd = ['./{}'.format(run_sh_script)] 
     
-    return cmd 
+    return wrap_into_pipe(cmd, task) 
 
 def scoring_finish_smina(item, ret): 
 
@@ -2917,7 +2917,7 @@ def scoring_start_gnina(task):
     os.system('chmod 0700 {}'.format(run_sh_script))
     cmd = ['./{}'.format(run_sh_script)] 
     
-    return cmd 
+    return wrap_into_pipe(cmd, task) 
 
 def scoring_finish_gnina(item, ret): 
 
@@ -2955,7 +2955,7 @@ def scoring_start_ad4(task):
     os.system('chmod 0700 {}'.format(run_sh_script))
     cmd = ['./{}'.format(run_sh_script)] 
     
-    return cmd 
+    return wrap_into_pipe(cmd, task) 
 
 def scoring_finish_ad4(item, ret): 
 
@@ -2994,7 +2994,7 @@ def scoring_start_vinardo(task):
     os.system('chmod 0700 {}'.format(run_sh_script))
     cmd = ['./{}'.format(run_sh_script)] 
     
-    return cmd 
+    return wrap_into_pipe(cmd, task) 
 
 def scoring_finish_vinardo(item, ret): 
 
@@ -3032,7 +3032,7 @@ def scoring_start_vina(task):
     os.system('chmod 0700 {}'.format(run_sh_script))
     cmd = ['./{}'.format(run_sh_script)] 
     
-    return cmd 
+    return wrap_into_pipe(cmd, task) 
 
 def scoring_finish_vina(item, ret): 
 
@@ -3074,7 +3074,7 @@ def scoring_start_PLANTS_chemplp(task):
     os.system('chmod 0700 {}'.format(run_sh_script))
     cmd = ['./{}'.format(run_sh_script)] 
     
-    return cmd 
+    return wrap_into_pipe(cmd, task) 
 
 def scoring_finish_PLANTS_chemplp(item, ret): 
 
@@ -3116,7 +3116,7 @@ def scoring_start_PLANTS_plp(task):
     os.system('chmod 0700 {}'.format(run_sh_script))
     cmd = ['./{}'.format(run_sh_script)] 
     
-    return cmd 
+    return wrap_into_pipe(cmd, task) 
 
 def scoring_finish_PLANTS_plp(item, ret): 
 
@@ -3158,7 +3158,7 @@ def scoring_start_PLANTS_plp95(task):
     os.system('chmod 0700 {}'.format(run_sh_script))
     cmd = ['./{}'.format(run_sh_script)] 
     
-    return cmd 
+    return wrap_into_pipe(cmd, task) 
 
 def scoring_finish_PLANTS_plp95(item, ret): 
 
@@ -3291,7 +3291,7 @@ def scoring_start_dock6_contact_score(task):
 
     cmd = ['./{}'.format(run_sh_script)] 
     
-    return cmd 
+    return wrap_into_pipe(cmd, task) 
 
 def scoring_finish_dock6_contact_score(item, ret): 
     try:    
@@ -3462,8 +3462,60 @@ DOCKING_PROGRAMS = {
     },
 }
 
+def wrap_into_pipe(cmd_arr, task):
+    pipe_settings_file_name = os.getenv("VF_PIPE_SETTINGS_PATH")
+    if not os.path.exists(pipe_settings_file_name):
+        print("[WARN] pipe.json not found in {}".format(pipe_settings_file_name))
+        return cmd_arr
 
+    with open(pipe_settings_file_name) as pipe_settings_file:
+        pipe_settings = json.load(pipe_settings_file)
 
+    program_name = task['program']
+    if program_name not in pipe_settings:
+        print("[WARN] pipe.json does not contain {} program".format(program_name))
+        return cmd_arr
+    
+    program_settings = pipe_settings[program_name]
+    if "image" not in program_settings:
+        print("[WARN] pipe.json does not contain 'image' property for {} program".format(program_name))
+        return cmd_arr
+
+    if "tool_cmd" not in program_settings:
+        print("[WARN] pipe.json does not contain 'tool_cmd' property for {} program, VF-default will be used".format(program_name))
+    else:
+        cmd_arr[0] = program_settings["tool_cmd"]
+
+    cwd_arr = [ "cd", str(task['tmp_run_dir_input']), ";" ]
+    cmd = ' '.join( cwd_arr + cmd_arr )
+
+    pipe_cmd = ["pipe",
+                "run",
+                "-s",
+                "-y",
+                "-id", program_settings.get("disk", "50"),
+                "-it", program_settings.get("instance_size", "n2-standard-2"),
+                "-di", program_settings["image"],
+                "-cmd", cmd,
+                "-t", "0",
+                "-pt", "on-demand",
+                "-r", "1",
+                "--",
+                "CP_CAP_LIMIT_MOUNTS", "None",
+                "parent-id", os.getenv("RUN_ID"),
+                "cluster_role_type", "additional",
+                "cluster_role", "worker"
+                ]
+    
+    if "extra_args" in program_settings:
+        for arg_key in program_settings["extra_args"]:
+            pipe_cmd.append(arg_key)
+            pipe_cmd.append(program_settings["extra_args"][arg_key])
+    
+    print('pipe run command generated for {} program:'.format(program_name))
+    print(pipe_cmd)
+
+    return pipe_cmd
 
 
 def get_workunit_information():
