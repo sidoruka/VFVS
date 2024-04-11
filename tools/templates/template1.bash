@@ -26,11 +26,13 @@
 export VFVS_WORKUNIT={{workunit_id}}
 export VFVS_JOB_STORAGE_MODE={{job_storage_mode}}
 export VFVS_TMP_PATH="/common/workdir/vfvs/tmp"
+export VFVS_LOG_PATH="/common/workdir/vfvs/logs"
 export VFVS_CONFIG_JOB_TGZ={{job_tgz}}
 export VFVS_TOOLS_PATH=${PWD}/bin
 export VFVS_VCPUS={{threads_to_use}}
 
 mkdir -p "$VFVS_TMP_PATH"
+mkdir -p "$VFVS_LOG_PATH"
 
 ##################################################################################
 

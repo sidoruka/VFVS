@@ -3486,33 +3486,18 @@ def wrap_into_pipe(cmd_arr, task):
     else:
         cmd_arr[0] = program_settings["tool_cmd"]
 
-    cwd_arr = [ "cd", str(task['tmp_run_dir_input']), ";" ]
-    cmd = ' '.join( cwd_arr + cmd_arr )
-
-    pipe_cmd = ["pipe",
-                "run",
-                "-s",
-                "-y",
-                "-id", program_settings.get("disk", "50"),
-                "-it", program_settings.get("instance_size", "n2-standard-2"),
-                "-di", program_settings["image"],
-                "-cmd", cmd,
-                "-t", "0",
-                "-pt", "on-demand",
-                "-r", "1",
-                "--",
-                "CP_CAP_LIMIT_MOUNTS", "None",
-                "parent-id", os.getenv("RUN_ID"),
-                "cluster_role_type", "additional",
-                "cluster_role", "worker"
-                ]
+    log_file = "{}-{}".format(task['scenario_key'], task['ligand_key'])
+    pipe_cmd = [ "qsub",
+                "-b", "y",
+                "-sync", "y",
+                "-o", "/common/workdir/vfvs/logs/{}.out".format(log_file),
+                "-e", "/common/workdir/vfvs/logs/{}.err".format(log_file),
+                "-wd", str(task['tmp_run_dir_input']),
+                "-q", "{}.q".format(program_name),
+                "-pe", "local", str(task['threads_per_docking'])] \
+                + cmd_arr
     
-    if "extra_args" in program_settings:
-        for arg_key in program_settings["extra_args"]:
-            pipe_cmd.append(arg_key)
-            pipe_cmd.append(program_settings["extra_args"][arg_key])
-    
-    print('pipe run command generated for {} program:'.format(program_name))
+    print('submit command generated for {} program:'.format(program_name))
     print(pipe_cmd)
 
     return pipe_cmd
